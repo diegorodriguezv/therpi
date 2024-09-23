@@ -1,0 +1,10 @@
+[Unit]
+Description=Keep your raspberry pi cool using a fan
+
+[Service]
+Type=simple
+StandardOutput=journal
+ExecStart=/home/diego/bin/therpi.sh
+
+[Install]
+WantedBy=default.target
