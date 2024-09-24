@@ -3,20 +3,16 @@ upperLimit=$((60))
 lowerLimit=$((50))
 gpioPin=4
 function initGpio(){
- echo "Initializing GPIO pin $gpioPin"
- if [ ! -d  /sys/class/gpio/gpio$gpioPin ];then
-  trap "echo $gpioPin > /sys/class/gpio/unexport ; echo bye" EXIT
-  echo $gpioPin > /sys/class/gpio/export
+  echo "Initializing GPIO pin $gpioPin"
+  trap "echo cleaning up... nothing to do; echo bye" EXIT
   sleep 1
- fi
- echo out > /sys/class/gpio/gpio$gpioPin/direction
- echo "Initialized GPIO pin $gpioPin"
+  echo "Initialized GPIO pin $gpioPin"
 }
 function startCooling(){
- echo 1 > /sys/class/gpio/gpio$gpioPin/value
+ pinctrl set $gpioPin op dh
 }
 function stopCooling(){
- echo 0 > /sys/class/gpio/gpio$gpioPin/value
+ pinctrl set $gpioPin op dl
 }
 initGpio
 echo "Upper limit: $upperLimit"
